@@ -3,7 +3,7 @@ function explainParseInt(value) {
   let result = parseInt(value);
   console.log("After parseInt:", result);
 }
-
+ 
 // Example Usage for parseInt
 explainParseInt("42");
 explainParseInt("42px");

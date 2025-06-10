@@ -6,6 +6,11 @@
 
 function isAnagram(str1, str2) {
 
+  str1= str1.trim();
+  str2= str2.trim();
+    return str1.split('').sort().join('') == str2.split('').sort().join('');
 }
+// isAnagram("spar","rasp")
+console.log(isAnagram(" spar","rasp"));
 
 module.exports = isAnagram;

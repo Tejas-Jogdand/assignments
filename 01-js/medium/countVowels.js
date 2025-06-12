@@ -6,7 +6,26 @@
 */
 
 function countVowels(str) {
-    // Your code here
+
+  let countVowels = 0;
+  vovels = ['a', 'e', 'i', 'o', 'u'];
+  str = str.toLowerCase();
+  str = str.split("");
+
+  console.log(str);
+
+  for (let i = 0; i < str.length; i++) {
+  //   if (str[i] == 'a' || str[i] == 'e' || str[i] == 'i' || str[i] == 'o' || str[i] == 'u') {
+  //     countVowels++;
+  // }
+    if (vovels.includes(str[i])){               
+       countVowels++; 
+      }
+  }
+
+  return countVowels;
 }
+
+console.log(countVowels("baaatregasfg sf, gfab"));
 
 module.exports = countVowels;

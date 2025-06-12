@@ -4,7 +4,14 @@
 */
 
 function isPalindrome(str) {
-  return true;
+  str = str.toLowerCase();
+  if (str == str.split("").reverse().join(""))
+    return true;
+  return false;
 }
+
+const str = "Naa";
+
+console.log("Is palindrom ? => ", isPalindrome(str));
 
 module.exports = isPalindrome;

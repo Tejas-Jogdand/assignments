@@ -8,6 +8,7 @@ let timer = 15;
 
 let id = setInterval(function () {      //setInterval retruns a id, we can use it to clear the inerval
     console.log(timer);
+    
     timer--;
     if (timer <= 0)
         clearInterval(id);

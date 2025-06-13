@@ -16,6 +16,66 @@
   Once you've implemented the logic, test your code by running
 */
 
-class Calculator {}
+class Calculator {
+    constructor() {
+        this.result = 0; // Initialize result variable
+    }
+
+    add(n) {
+        this.result += n;
+        return this.result;
+    }
+
+    subtract(n) {
+        this.result -= n;
+        return this.result;
+    }
+
+    multiply(n) {
+        this.result *= n;
+        return this.result;
+    }
+
+    divide(n) {
+        if (n === 0) {
+            throw new Error("Cannot divide by zero.");
+        }
+        this.result /= n;
+        return this.result;
+    }
+
+    clear() {
+        this.result = 0;
+    }
+
+    getResult() {
+        return this.result;
+    }
+
+    isValidExpression(input) {
+        return /^[0-9+\-*/().\s]+$/.test(input); // Ensures only allowed characters
+    }
+
+    calculate(input) {
+        if (!this.isValidExpression(input)) {
+            throw new Error("Invalid expression detected!");
+        }
+
+        // Remove extra spaces
+        input = input.replace(/\s+/g, ' ').trim();
+
+        try {
+            // Safely evaluate expression following correct precedence
+            this.result = new Function(`return ${input}`)();
+            return this.result;
+        } catch (error) {
+            throw new Error("Error in evaluating expression. Check syntax.");
+        }
+    }
+}
+
+// Example usage
+const calc = new Calculator();
+console.log(calc.calculate("10 +   2 *    (   6 - (4 + 1) / 2) + 7")); // Should evaluate correctly following BODMAS
 
 module.exports = Calculator;

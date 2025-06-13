@@ -15,7 +15,7 @@
 const fs = require('fs');
 
 function readMyFile() {
-    return new Promise(function (resolve) {
+    return new Promise(function (resolve,reject) {
         fs.readFile("test.txt", "utf-8", function (err, data) {
             if (err)
                 reject(err);

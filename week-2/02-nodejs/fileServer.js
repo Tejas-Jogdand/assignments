@@ -16,6 +16,47 @@ const express = require('express');
 const fs = require('fs');
 const path = require('path');
 const app = express();
+const port = 3000;
 
+app.get('/files',(req,res)=>{
+  fs.readdir('./files',(err,files)=>{
+    if(err){
+      res.status(500).json({
+        msg:"Kuch toh error hai bhai, file directory read nahi kar pa raha hu"
+      });
+    }
+    else{
+      res.status(200).json({
+        msg : 'Bhai ye le tera data',
+        data : files
+      });
+    }
+  })
+});
+
+
+app.get('/files/:filename',(req,res)=>{
+  const filePath = path.join(__dirname,'/files/',req.params.filename);
+  // console.log(filePath);
+  fs.readFile(filePath,'utf-8',(err,data)=>{
+     if(err){
+      res.status(500).json({
+        msg:"Kuch toh error hai bhai, file read nahi kar pa raha hu"
+      });
+    }
+    else{
+      res.status(200).json({
+        msg : 'Bhai ye le tera data',
+        data : data
+      });
+    }
+  });
+});
+
+app.use((req, res) => {
+    res.status(404).json({ msg: "404 : Route not found, bhai! Check your URL." });
+});
+
+app.listen(port,()=>{console.log(`Running on ${port}`);});
 
 module.exports = app;

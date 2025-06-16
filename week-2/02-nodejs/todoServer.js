@@ -39,11 +39,110 @@
 
   Testing the server - run `npm run test-todoServer` command in terminal
  */
-  const express = require('express');
-  const bodyParser = require('body-parser');
-  
-  const app = express();
-  
-  app.use(bodyParser.json());
-  
-  module.exports = app;
+const express = require('express');
+const bodyParser = require('body-parser');
+// const path = require('path');
+const app = express();
+const port = 3000;
+
+app.use(bodyParser.json());
+
+const todos = [
+  {
+    id: 1,
+    title: "Az-900",
+    completed: false
+  },
+  {
+    id: 2,
+    title: "Express.Js",
+    completed: true
+  }
+];
+
+function isDoTOPresent(todoId) {
+  return todos.some(i => i.id == todoId)
+}
+
+app.get('/todos', (req, res) => {
+  if (todos.length == 0) {
+    res.status(404).json({
+      msg: "Bhai ek nhi todo list task nahi hai"
+    });
+  }
+  else {
+    res.status(200).send(todos);
+  }
+});
+
+app.get('/todos/:id', (req, res) => {
+
+  const todoId = parseInt(req.params.id);
+
+  if (!isDoTOPresent(todoId)) {
+    res.status(404).json({
+      msg: "Bhai todo list mai nahi hai ye id"
+    });
+  }
+  else {
+    const todoById = todos.find(i => i.id === todoId);
+    res.status(200).send(todoById);
+  }
+});
+
+app.post('/todos', (req, res) => {
+  if (!req.body) {
+    res.status(411).json({
+      msg: "bhai achese input de json mai"
+    });
+  } else {
+    const newTODO = req.body;
+    todos.push(newTODO);
+    res.status(201).json({
+      msg: 'Le bhai, kar diya add'
+    });
+  }
+});
+
+app.put('/todos/:id', (req, res) => {
+  const todoId = parseInt(req.params.id);
+
+  if (!isDoTOPresent(todoId)) {
+    res.status(404).json({
+      msg: "bhai tune jo id diya hai wo exist hi nahi krta"
+    });
+  } else {
+    const updateToDo = req.body;
+    const index = todos.findIndex(i => i.id == todoId);
+    todos[index] = { ...todos[index], ...updateToDo }   //smart way using spread operator
+    //manual way
+    // todos[index].title = updateToDo.title;
+    // todos[index].completed = updateToDo.completed;
+
+    res.status(200).json({
+      msg: "Kar diya bhai update, khush reh"
+    });
+  }
+});
+
+app.delete('/todos/:id',(req,res)=>{
+
+  const todoId = parseInt(req.params.id);
+
+  if(!isDoTOPresent(todoId)){
+    res.status(404).json({
+      msg:'Bhai wo id hi present nahi hai'
+    });
+  }
+  else{
+    const index = todos.findIndex(i => i.id == todoId);
+    todos.splice(index,1);
+    res.status(200).json({
+      msg:"Ho gaya delete"
+    });
+  }
+});
+
+app.listen(port, () => { console.log(`Running on port ${port}`) });
+
+module.exports = app;

@@ -1,1 +1,12 @@
-[]
+[
+    {
+    "id": 1,
+    "title": "Az-900",
+    "completed": false
+  },
+  {
+    "id": 2,
+    "title": "ExpressJs",
+    "completed": true
+  }
+]

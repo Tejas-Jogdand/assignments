@@ -90,18 +90,40 @@ app.get('/todos/:id', (req, res) => {
   }
 });
 
+// app.post('/todos', (req, res) => {
+//   if (!req.body) {
+//     res.status(411).json({
+//       msg: "bhai achese input de json mai"
+//     });
+//   } else {
+//     const newTODO = req.body;
+//     todos.push(newTODO);
+//     res.status(201).json({
+//       msg: 'Le bhai, kar diya add'
+//     });
+//   }
+// });
+
+let nextId = todos.length ? Math.max(...todos.map(todo => todo.id)) + 1 : 1;
+
 app.post('/todos', (req, res) => {
-  if (!req.body) {
-    res.status(411).json({
-      msg: "bhai achese input de json mai"
-    });
-  } else {
-    const newTODO = req.body;
-    todos.push(newTODO);
-    res.status(201).json({
-      msg: 'Le bhai, kar diya add'
-    });
+  const { title, completed } = req.body;
+
+  if (!title) {
+    return res.status(400).json({ msg: "bhai,Title and description are required" });
   }
+
+  const newTODO = {
+    id: nextId++,
+    title,
+    completed: completed || false
+  };
+
+  todos.push(newTODO);
+  res.status(201).json({
+    id: newTODO.id,
+    msg: "Kar diya bhai add"
+  });
 });
 
 app.put('/todos/:id', (req, res) => {
@@ -125,22 +147,26 @@ app.put('/todos/:id', (req, res) => {
   }
 });
 
-app.delete('/todos/:id',(req,res)=>{
+app.delete('/todos/:id', (req, res) => {
 
   const todoId = parseInt(req.params.id);
 
-  if(!isDoTOPresent(todoId)){
+  if (!isDoTOPresent(todoId)) {
     res.status(404).json({
-      msg:'Bhai wo id hi present nahi hai'
+      msg: 'Bhai wo id hi present nahi hai'
     });
   }
-  else{
+  else {
     const index = todos.findIndex(i => i.id == todoId);
-    todos.splice(index,1);
+    todos.splice(index, 1);
     res.status(200).json({
-      msg:"Ho gaya delete"
+      msg: "Ho gaya delete"
     });
   }
+});
+
+app.use((req, res) => {
+  res.status(404).json({ msg: "Bhai ye route hi nahi hai" });
 });
 
 app.listen(port, () => { console.log(`Running on port ${port}`) });

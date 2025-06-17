@@ -41,39 +41,47 @@
  */
 const express = require('express');
 const bodyParser = require('body-parser');
-const fs = require('fs');
-// const path = require('path');
 const app = express();
+const fs = require('fs');
 const port = 3000;
+const filePath = './todos.json';
 
 app.use(bodyParser.json());
 
+let todos = [];
+
+try {
+  if (fs.existsSync(filePath)) {
+    const data = fs.readFileSync(filePath);
+    todos = JSON.parse(data);
+  }
+} catch (e) {
+  console.error("Failed to load todos:", e);
+}
+
+function saveTodos() {
+  fs.writeFileSync(filePath, JSON.stringify(todos, null, 2));
+}
+
+
 function isDoTOPresent(todoId) {
-  return fs.readFile('./todos.json', 'utf-8', (err, data) => {
-    if (err)
-      console.log("issue");
-    else
-      console.log(data);
-  });
+  return todos.some(i => i.id == todoId)
 }
 
 app.get('/todos', (req, res) => {
-  fs.readFile('./todos.json', 'utf-8', (err, data) => {
-    if (err) {
-      res.status(404).json({
-        msg: "File mai kuch gadbad hai"
-      });
-    }
-    else {
-      res.status(200).send(data);
-    }
-  });
+  if (todos.length == 0) {
+    res.status(404).json({
+      msg: "Bhai ek nhi todo list task nahi hai"
+    });
+  }
+  else {
+    res.status(200).send(todos);
+  }
 });
 
 app.get('/todos/:id', (req, res) => {
 
   const todoId = parseInt(req.params.id);
-  //here
 
   if (!isDoTOPresent(todoId)) {
     res.status(404).json({
@@ -81,24 +89,32 @@ app.get('/todos/:id', (req, res) => {
     });
   }
   else {
-    const todos = fs.readFile('./todos.json');
-    // const todoById = todos.
-    res.status(200).send("ruk ja");
+    const todoById = todos.find(i => i.id === todoId);
+    res.status(200).send(todoById);
   }
 });
 
+let nextId = todos.length ? Math.max(...todos.map(todo => todo.id)) + 1 : 1;
+
 app.post('/todos', (req, res) => {
-  if (!req.body) {
-    res.status(411).json({
-      msg: "bhai achese input de json mai"
-    });
-  } else {
-    const newTODO = req.body;
-    todos.push(newTODO);
-    res.status(201).json({
-      msg: 'Le bhai, kar diya add'
-    });
+  const { title, completed } = req.body;
+
+  if (!title) {
+    return res.status(400).json({ msg: "bhai,Title and description are required" });
   }
+
+  const newTODO = {
+    id: nextId++,
+    title,
+    completed: completed || false
+  };
+
+  todos.push(newTODO);
+  saveTodos();
+  res.status(201).json({
+    id: newTODO.id,
+    msg: "Kar diya bhai add"
+  });
 });
 
 app.put('/todos/:id', (req, res) => {
@@ -112,6 +128,7 @@ app.put('/todos/:id', (req, res) => {
     const updateToDo = req.body;
     const index = todos.findIndex(i => i.id == todoId);
     todos[index] = { ...todos[index], ...updateToDo }   //smart way using spread operator
+    saveTodos();
     //manual way
     // todos[index].title = updateToDo.title;
     // todos[index].completed = updateToDo.completed;
@@ -137,7 +154,12 @@ app.delete('/todos/:id', (req, res) => {
     res.status(200).json({
       msg: "Ho gaya delete"
     });
+    saveTodos();
   }
+});
+
+app.use((req, res) => {
+  res.status(404).json({ msg: "Bhai ye route hi nahi hai" });
 });
 
 app.listen(port, () => { console.log(`Running on port ${port}`) });

@@ -1,7 +1,7 @@
-const request = require('supertest');
-const assert = require('assert');
+// const request = require('supertest');
+// const assert = require('assert');
 const express = require('express');
-
+const port = 3000;
 const app = express();
 let errorCount = 0;
 
@@ -22,5 +22,12 @@ app.post('/user', function(req, res) {
 app.get('/errorCount', function(req, res) {
   res.status(200).json({ errorCount });
 });
+
+app.use((err,req,res,next)=>{
+  errorCount++;
+  res.status(404).send("404 : Not found");
+});
+
+app.listen(port,()=>console.log(`Running on port ${port}`));
 
 module.exports = app;

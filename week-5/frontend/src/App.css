@@ -1,0 +1,184 @@
+/* .Buisness-Card-Container {
+    padding-top: 15px;
+    padding-bottom: 15px;
+    display:grid;
+    justify-content: space-evenly;
+}
+
+
+.Buisness-Card {
+    background: #9bf4a7;
+    margin: 10px;
+    padding-left: 15px;
+    padding-right: 15px;
+    padding-top : 2px;
+    padding-bottom: 10px;
+    border-radius: 15px;
+    border: 1px solid #00c91b98;
+}
+
+.link-btn-container button {
+    background: #9bc5f4;
+    width: 100px;
+    border-radius: 5px;
+    border: 1px solid #000000;
+    margin: 10px;
+}
+
+.link-btn-container{
+    display: flex;
+    
+}
+
+
+
+@media screen and (max-width : 420px) {
+    .link-btn-container{
+        display: inline;
+    }
+} */
+
+
+.Buisness-Card-Container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 2rem;
+  padding: 2rem;
+  background-color: #f9f9f9;
+}
+
+.Buisness-Card {
+  background-color: #ffffff;
+  border: 1px solid #e0e0e0;
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  width: 280px;
+  padding: 1.5rem;
+  transition: transform 0.2s ease-in-out;
+}
+
+.Buisness-Card:hover {
+  transform: translateY(-5px);
+}
+
+.Buisness-Card h2 {
+  font-size: 1.5rem;
+  margin-bottom: 0.25rem;
+  color: #333;
+}
+
+.Buisness-Card p {
+  font-size: 1rem;
+  color: #777;
+  margin-bottom: 1rem;
+}
+
+.Buisness-Card h3 {
+  margin-top: 1rem;
+  font-size: 1.1rem;
+  color: #444;
+}
+
+.Buisness-Card span {
+  display: inline-block;
+  background-color: #e0f7fa;
+  color: #00796b;
+  padding: 0.3rem 0.6rem;
+  margin: 0.2rem;
+  border-radius: 12px;
+  font-size: 0.9rem;
+}
+
+.link-btn-container {
+  margin-top: 1.2rem;
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.link-btn-container button {
+  padding: 0.5rem 1rem;
+  background-color: #1976d2;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  font-size: 0.9rem;
+}
+
+.link-btn-container button:hover {
+  background-color: #1565c0;
+}
+
+
+/*add card css*/
+
+.add-card-form {
+  max-width: 400px;
+  margin: 1.5rem auto;
+  padding: 1rem;
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  background-color: #fafafa;
+}
+
+.form-toggle {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #1976d2;
+  cursor: pointer;
+  text-align: center;
+  transition: color 0.2s ease;
+}
+
+.form-toggle:hover {
+  color: #0d47a1;
+}
+
+.form-fields {
+  margin-top: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+  animation: slideDown 0.3s ease;
+}
+
+.form-fields label {
+  font-size: 0.9rem;
+  color: #333;
+}
+
+.form-fields input {
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 0.95rem;
+}
+
+.form-fields button {
+  padding: 0.6rem;
+  background-color: #1976d2;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.form-fields button:hover {
+  background-color: #1565c0;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: scaleY(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scaleY(1);
+  }
+}

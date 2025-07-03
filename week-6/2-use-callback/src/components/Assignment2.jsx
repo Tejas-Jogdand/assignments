@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, memo } from 'react';
 
 // Create a component with a text input field and a button. The goal is to display an alert with the text entered when the button is clicked. Use useCallback to memoize the event handler function that triggers the alert, ensuring it's not recreated on every render.
 // Currently we only have inputText as a state variable and hence you might not see the benefits of 
@@ -6,11 +6,17 @@ import React, { useState, useCallback } from 'react';
 
 export function Assignment2() {
     const [inputText, setInputText] = useState('');
+    const [count, setCount] = useState(0);
+
+    // console.log("App Rerender");
 
     // Your code starts here
-    function showAlert() {
-
-    }
+    // function showAlert() {
+    //     alert(inputText)
+    // }
+    const showAlert = useCallback(() => {
+        alert(inputText)
+    }, [inputText])
     // Your code ends here
 
     return (
@@ -21,12 +27,15 @@ export function Assignment2() {
                 onChange={(e) => setInputText(e.target.value)}
                 placeholder="Enter some text"
             />
+            <button onClick={() => { setCount(count + 1) }}>Click here</button>
+            <br />
             <Alert showAlert={showAlert} />
         </div>
     );
 };
 
-function Alert({showAlert}) {
+const Alert = memo(({ showAlert }) => {
+    console.log("Alert btn getting rerendered")
     return <button onClick={showAlert}>Show Alert</button>
-}
+})
 

@@ -1,31 +1,52 @@
-import { useState } from "react";
+import { useState,memo, useCallback} from "react";
 
 // Create a counter component with increment and decrement functions. Pass these functions to a child component which has buttons to perform the increment and decrement actions. Use useCallback to ensure that these functions are not recreated on every render.
 
 export function Assignment1() {
     const [count, setCount] = useState(0);
+    const [temp,setTemp] = useState(0)
 
     // Your code starts here
-    function handleIncrement() {
+    const handleIncrement = useCallback(()=>{
+        setCount(count+1)
+    },[count])
 
-    }
-
-    function handleDecrement() {
-        
-    }
+    const handleDecrement = useCallback(() => {
+        setCount(count-1)
+    },[count])
     // Your code ends here
 
     return (
         <div>
             <p>Count: {count}</p>
+            <button onClick={()=>{setTemp(temp+1)}}>Clicke me {temp}</button>
             <CounterButtons onIncrement={handleIncrement} onDecrement={handleDecrement} />
         </div>
     );
 };
 
-const CounterButtons = ({ onIncrement, onDecrement }) => (
+// const CounterButtons = ({ onIncrement, onDecrement }) => (
+//     <div>
+//         <button onClick={onIncrement}>Increment</button>
+//         <button onClick={onDecrement}>Decrement</button>
+//     </div>
+// );
+
+const CounterButtons = memo(({ onIncrement, onDecrement }) => {
+    console.log("Rerender")
+    return(
     <div>
         <button onClick={onIncrement}>Increment</button>
         <button onClick={onDecrement}>Decrement</button>
-    </div>
-);
+    </div>)
+})
+
+// function CounterButtons({ onIncrement, onDecrement }){
+//     console.log("render");
+//     return(
+//     <div>
+//         <button onClick={onIncrement}>Increment</button>
+//         <button onClick={onDecrement}>Decrement</button>
+//     </div>)
+// }
+

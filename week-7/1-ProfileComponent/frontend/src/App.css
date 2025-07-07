@@ -1,0 +1,110 @@
+#root {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem;
+  text-align: center;
+}
+
+.logo {
+  height: 6em;
+  padding: 1.5em;
+  will-change: filter;
+  transition: filter 300ms;
+}
+
+.logo:hover {
+  filter: drop-shadow(0 0 2em #646cffaa);
+}
+
+.logo.react:hover {
+  filter: drop-shadow(0 0 2em #61dafbaa);
+}
+
+@keyframes logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  a:nth-of-type(2) .logo {
+    animation: logo-spin infinite 20s linear;
+  }
+}
+
+.card {
+  padding: 2em;
+}
+
+.read-the-docs {
+  color: #888;
+}
+
+/* ProfileCard CSS */
+
+.profile-card {
+  width: 360px;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
+  font-family: 'Segoe UI', sans-serif;
+  background-color: #fff;
+  /* padding: 10px; */
+}
+
+.profile-card-top{
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  color: white;
+  text-align: center;
+  padding: 25px 20px;
+}
+
+.profile-card-img {
+  /* border: 2px solid rgb(30, 194, 117); */
+  /* background: url("../../../../../assets/img/user-photo.svg") no-repeat center top / cover; */
+  height: 110px;
+  width: 110px;
+  border-radius: 50%;
+  overflow: hidden;
+  margin: 0 auto 12px;
+  border: 3px solid #fff;
+  box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.3);
+}
+
+.profile-card-img img {
+  height: 100%;
+  width: 100%;
+  /* object-fit: cover; */
+}
+
+.profile-card-top p {
+  margin: 4px 0;
+  font-size: 15px;
+  line-height: 1.4;
+}
+
+.profile-card-info {
+  display: flex;
+  justify-content: space-around;
+  background-color: #f7f7f7;
+  padding: 15px 0;
+  color: #333;
+}
+
+.profile-card-info > div {
+  text-align: center;
+}
+
+.profile-card-info p:first-child {
+  font-weight: 600;
+  font-size: 18px;
+}
+
+.profile-card-info p:last-child {
+  font-size: 13px;
+  color: #666;
+}

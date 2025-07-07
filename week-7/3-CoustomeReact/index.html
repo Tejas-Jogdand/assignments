@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>React Underhood</title>
+</head>
+
+<body>
+  <div id="root"></div>
+
+  <script>
+    const myObject = [
+      {
+        type: 'a',
+        props: {
+          href: 'https://example.com',
+          target: '_blank',
+          children: 'Click Here'
+        }
+      },
+      {
+        type: 'div',
+        props: {
+          id: 'info-box',
+          children: {
+            type: 'p',
+            props: {
+              children: 'This is a paragraph inside a div.'
+            }
+          }
+        }
+      }
+    ];
+
+    function createDomElement(node) {
+      const element = document.createElement(node.type);
+
+      const { props } = node;
+      for (let key in props) {
+        if (key === 'children') continue;
+        element.setAttribute(key, props[key]);
+      }
+
+      const children = props.children;
+      if (typeof children === 'string') {
+        element.textContent = children;
+      } else if (Array.isArray(children)) {
+        children.forEach(child => {
+          element.appendChild(createDomElement(child));
+        });
+      } else if (typeof children === 'object') {
+        element.appendChild(createDomElement(children));
+      }
+
+      return element;
+    }
+
+    function renderMyDOM(elements) {
+      const container = document.getElementById('root');
+      elements.forEach(virtualElement => {
+        const dom = createDomElement(virtualElement);
+        container.appendChild(dom);
+      });
+    }
+
+    renderMyDOM(myObject);
+  </script>
+
+</body>
+
+</html>
+
+
+<!-- <body>
+    <script>
+
+        const myObject = [{
+            type: 'a',
+            props: {
+                href: 'https://example.com',
+                target: '_blank',
+                children: 'Click Here'
+            }
+        }]
+
+
+
+        function createDomElement(i) {
+            const anchorTag = document.createElement(i.type);
+            anchorTag.setAttribute("href", i.props.href);
+            anchorTag.setAttribute("target", i.props.target);
+            anchorTag.innerText = i.props.children
+            mount(anchorTag)
+        }
+
+        function renderMyDOM() {
+            myObject.map(i => {
+                createDomElement(i);
+            })
+        }
+
+        function mount(child) {
+            const root = document.getElementById('root');
+            // console.log(root)
+            root.appendChild(child);
+
+        }
+
+        renderMyDOM()
+
+    </script>
+
+    <div id="root"></div>
+</body> -->

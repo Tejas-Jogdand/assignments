@@ -10,7 +10,12 @@ import { client } from "..";
  * }
  */
 export async function createTodo(userId: number, title: string, description: string) {
-    
+    const query = 'INSERT INTO todos (user_id, title, description) VALUES ($1, $2, $3) RETURNING [userId,title,description]';
+    const values = [userId, title, description];
+
+    let response = await client.query(query, values);
+    console.log(response.rows)
+    return response.rows
 }
 /*
  * mark done as true for this specific todo.
@@ -23,7 +28,11 @@ export async function createTodo(userId: number, title: string, description: str
  * }
  */
 export async function updateTodo(todoId: number) {
+    const query = 'UPDATE todos SET done=true WHERE id=$1 RETURNING id';
+    const values = [todoId];
 
+    let response = await client.query(query, values);
+    return response
 }
 
 /*
@@ -37,5 +46,9 @@ export async function updateTodo(todoId: number) {
  * }]
  */
 export async function getTodos(userId: number) {
+    const query = 'SELECT * FROM todos WHERE user_id=$1';
+    const values = [userId];
 
+    let response = await client.query(query, values);
+    return response.rows
 }
